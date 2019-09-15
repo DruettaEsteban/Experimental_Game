@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class FrameMP extends Application{
 
@@ -96,9 +99,18 @@ public class FrameMP extends Application{
         countdownBar.setMinWidth(getPercentageWidth(100));
         countdownBar.setMaxWidth(getPercentageWidth(100));
         countdownBar.setPrefHeight(getPercentageHeight(5));
-        countdownBar.setStyle("-fx-bar-fill: green;");
+        countdownBar.setStyle("-fx-accent: rgb(114,255,0);");
 
-        countdownBar.startCoundown();
+        countdownBar.startCountdown();
+
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.schedule(new Runnable() {
+            @Override
+            public void run() {
+                countdownBar.startCountdown();
+            }
+        }, 28, TimeUnit.SECONDS);
+
 
 
         Scene scene = new Scene(mainContainer);
